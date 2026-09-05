@@ -39,6 +39,7 @@ class _AgendamentosScreenState extends State<AgendamentosScreen> {
         agendamentos = dados;
         agendamentosFiltrados = dados;
         carregando = false;
+        erro = null;
       });
     } catch (e) {
       setState(() {
@@ -142,15 +143,25 @@ class _AgendamentosScreenState extends State<AgendamentosScreen> {
               periodoSelecionado: periodoSelecionado,
               mesSelecionado: mesSelecionado,
               statusSelecionado: statusSelecionado,
+
               onPeriodoChanged: (valor) {
-                periodoSelecionado = valor;
+                setState(() {
+                  periodoSelecionado = valor;
+                });
               },
+
               onMesChanged: (valor) {
-                mesSelecionado = valor;
+                setState(() {
+                  mesSelecionado = valor;
+                });
               },
+
               onStatusChanged: (valor) {
-                statusSelecionado = valor;
+                setState(() {
+                  statusSelecionado = valor;
+                });
               },
+
               onPesquisar: _pesquisar,
               onLimpar: _limparFiltros,
             ),
@@ -182,13 +193,16 @@ class _AgendamentosScreenState extends State<AgendamentosScreen> {
         maxCrossAxisExtent: 380,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        childAspectRatio: 1.7,
+        mainAxisExtent: 310,
       ),
       itemCount: agendamentosFiltrados.length,
       itemBuilder: (context, index) {
         final agendamento = agendamentosFiltrados[index];
 
-        return _AgendamentoCard(agendamento: agendamento);
+        return _AgendamentoCard(
+          agendamento: agendamento,
+          onStatusAlterado: _carregarAgendamentos,
+        );
       },
     );
   }
@@ -273,7 +287,7 @@ class _FiltrosAgendamentos extends StatelessWidget {
             ),
 
             SizedBox(
-              width: 200,
+              width: 220,
               child: DropdownButtonFormField<String>(
                 value: statusSelecionado,
                 decoration: const InputDecoration(
@@ -290,6 +304,14 @@ class _FiltrosAgendamentos extends StatelessWidget {
                   DropdownMenuItem(
                     value: 'Cancelado',
                     child: Text('Cancelado'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Concluido',
+                    child: Text('Concluído'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Nao_compareceu',
+                    child: Text('Não compareceu'),
                   ),
                 ],
                 onChanged: onStatusChanged,
@@ -314,10 +336,120 @@ class _FiltrosAgendamentos extends StatelessWidget {
   }
 }
 
-class _AgendamentoCard extends StatelessWidget {
+class _AgendamentoCard extends StatefulWidget {
   final Agendamento agendamento;
+  final VoidCallback onStatusAlterado;
 
-  const _AgendamentoCard({required this.agendamento});
+  const _AgendamentoCard({
+    required this.agendamento,
+    required this.onStatusAlterado,
+  });
+
+  @override
+  State<_AgendamentoCard> createState() => _AgendamentoCardState();
+}
+
+class _AgendamentoCardState extends State<_AgendamentoCard> {
+  final AgendamentoService service = AgendamentoService(ApiService());
+
+  bool atualizando = false;
+
+  Future<void> _alterarStatus(String novoStatus) async {
+    setState(() {
+      atualizando = true;
+    });
+
+    try {
+      await service.atualizarStatus(widget.agendamento.id, novoStatus);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Status atualizado com sucesso!')),
+      );
+
+      widget.onStatusAlterado();
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao atualizar status: $e')));
+    } finally {
+      if (mounted) {
+        setState(() {
+          atualizando = false;
+        });
+      }
+    }
+  }
+
+  void _mostrarOpcoesStatus() {
+    final status = widget.agendamento.status.toLowerCase();
+
+    List<String> opcoes = [];
+
+    if (status == 'pendente') {
+      opcoes = ['CONFIRMADO', 'CANCELADO'];
+    } else if (status == 'confirmado') {
+      opcoes = ['CONCLUIDO', 'NAO_COMPARECEU', 'CANCELADO'];
+    }
+
+    if (opcoes.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Este agendamento já foi finalizado e não pode ter o status alterado.',
+          ),
+        ),
+      );
+
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Alterar status do agendamento #${widget.agendamento.id}',
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: opcoes.map((status) {
+              return ListTile(
+                leading: const Icon(Icons.sync_alt),
+                title: Text(_nomeStatus(status)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _alterarStatus(status);
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  String _nomeStatus(String status) {
+    switch (status) {
+      case 'CONFIRMADO':
+        return 'Confirmado';
+
+      case 'CANCELADO':
+        return 'Cancelado';
+
+      case 'CONCLUIDO':
+        return 'Concluído';
+
+      case 'NAO_COMPARECEU':
+        return 'Não compareceu';
+
+      default:
+        return status;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -331,7 +463,7 @@ class _AgendamentoCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Agendamento #${agendamento.id}',
+                    'Agendamento #${widget.agendamento.id}',
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -339,7 +471,7 @@ class _AgendamentoCard extends StatelessWidget {
                   ),
                 ),
 
-                _StatusBadge(status: agendamento.status),
+                _StatusBadge(status: widget.agendamento.status),
               ],
             ),
 
@@ -347,28 +479,47 @@ class _AgendamentoCard extends StatelessWidget {
 
             _InfoLinha(
               icone: Icons.calendar_today_outlined,
-              texto: agendamento.data,
+              texto: widget.agendamento.data,
             ),
 
             const SizedBox(height: 8),
 
             _InfoLinha(
               icone: Icons.access_time_outlined,
-              texto: agendamento.horario,
+              texto: widget.agendamento.horario,
             ),
 
             const SizedBox(height: 8),
 
             _InfoLinha(
               icone: Icons.person_outline,
-              texto: 'Nutriz #${agendamento.nutrizId}',
+              texto: 'Nutriz #${widget.agendamento.nutrizId}',
             ),
 
             const SizedBox(height: 8),
 
             _InfoLinha(
               icone: Icons.local_hospital_outlined,
-              texto: 'Banco de leite #${agendamento.bancoLeiteId}',
+              texto: 'Banco de leite #${widget.agendamento.bancoLeiteId}',
+            ),
+
+            const Spacer(),
+
+            const SizedBox(height: 12),
+
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: atualizando ? null : _mostrarOpcoesStatus,
+                icon: atualizando
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.edit_outlined),
+                label: Text(atualizando ? 'Atualizando...' : 'Alterar status'),
+              ),
             ),
           ],
         ),
@@ -392,6 +543,14 @@ class _StatusBadge extends StatelessWidget {
         break;
 
       case 'cancelado':
+        cor = AppColors.error;
+        break;
+
+      case 'concluido':
+        cor = AppColors.primary;
+        break;
+
+      case 'nao_compareceu':
         cor = AppColors.error;
         break;
 

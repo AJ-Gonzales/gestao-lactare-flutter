@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:gestao_lactare/theme/app_colors.dart';
 
 import '../../navigation/app_routes.dart';
 
@@ -8,7 +7,6 @@ import '../components/dashboard_menu.dart';
 import '../components/doacoes_chart.dart';
 import '../components/agendamentos_chart.dart';
 import '../components/bancos_chart.dart';
-import '../components/avaliacoes_chart.dart';
 import '../components/alerta_card.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -22,42 +20,38 @@ class DashboardScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // CABEÇALHO
-              Row(
-                children: [
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Painel de gerenciamento',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        SizedBox(height: 3),
-
-                        Text(
-                          'Visão geral da operação de doação de leite.',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Painel de gerenciamento',
+                      style: TextStyle(
+                        color: AppColors.surface,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
 
-                  const DashboardMenu(),
-                ],
+                    const Spacer(),
+
+                    const DashboardMenu(),
+                  ],
+                ),
               ),
 
-              const SizedBox(height: 14),
+              const SizedBox(height: 16),
 
-              // CONTEÚDO
               Expanded(
                 child: Column(
                   children: [
-                    // PRIMEIRA LINHA
                     Expanded(
                       flex: 3,
                       child: Row(
@@ -74,7 +68,6 @@ class DashboardScreen extends StatelessWidget {
 
                     const SizedBox(height: 14),
 
-                    // SEGUNDA LINHA
                     Expanded(
                       flex: 2,
                       child: Row(
@@ -84,20 +77,8 @@ class DashboardScreen extends StatelessWidget {
 
                           const SizedBox(width: 14),
 
-                          const Expanded(child: AvaliacoesChart()),
+                          Expanded(child: AlertaCard()),
                         ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 14),
-
-                    // ALERTA
-                    Expanded(
-                      flex: 1,
-                      child: AlertaCard(
-                        onTap: () {
-                          Navigator.pushNamed(context, AppRoutes.avaliacoes);
-                        },
                       ),
                     ),
                   ],

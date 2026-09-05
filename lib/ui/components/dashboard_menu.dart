@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestao_lactare/theme/app_colors.dart';
 
 import '../../navigation/app_routes.dart';
 
@@ -7,24 +8,66 @@ class DashboardMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      tooltip: 'Navegação',
-      icon: const Icon(Icons.menu),
-      onSelected: (rota) {
-        Navigator.pushNamed(context, rota);
-      },
-      itemBuilder: (context) => [
-        const PopupMenuItem(value: AppRoutes.nutrizes, child: Text('Nutrizes')),
-        const PopupMenuItem(
-          value: AppRoutes.agendamentos,
-          child: Text('Agendamentos'),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _MenuItem(
+          titulo: 'Nutrizes',
+          rota: AppRoutes.nutrizes,
         ),
-        const PopupMenuItem(value: AppRoutes.doacoes, child: Text('Doações')),
-        const PopupMenuItem(
-          value: AppRoutes.avaliacoes,
-          child: Text('Avaliações'),
+        _MenuItem(
+          titulo: 'Doações',
+          rota: AppRoutes.doacoes,
+        ),
+        _MenuItem(
+          titulo: 'Agendamentos',
+          rota: AppRoutes.agendamentos,
+        ),
+        _MenuItem(
+          titulo: 'Avaliações',
+          rota: AppRoutes.avaliacoes,
+        ),
+        _MenuItem(
+          titulo: 'Sair',
+          rota: AppRoutes.login,
         ),
       ],
+    );
+  }
+}
+
+class _MenuItem extends StatelessWidget {
+  final String titulo;
+  final String rota;
+
+  const _MenuItem({
+    required this.titulo,
+    required this.rota,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, rota);
+        },
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.surface,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 10,
+          ),
+        ),
+        child: Text(
+          titulo,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
     );
   }
 }

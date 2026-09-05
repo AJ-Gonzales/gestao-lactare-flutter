@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_lactare/theme/app_colors.dart';
 
-import 'package:gestao_lactare/ui/screens/login_screen.dart';
 import 'package:gestao_lactare/navigation/app_navigation.dart';
+import 'package:gestao_lactare/ui/screens/splash_screen.dart';
 
 void main() {
   runApp(const LactareApp());
@@ -17,7 +17,7 @@ class LactareApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Lactare Connect',
       theme: AppTheme.lightTheme,
-      home: const LoginScreen(),
+      home: const SplashScreen(),
       onGenerateRoute: AppNavigation.generateRoute,
     );
   }

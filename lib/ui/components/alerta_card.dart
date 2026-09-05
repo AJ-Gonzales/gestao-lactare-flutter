@@ -4,9 +4,7 @@ import '../../service/api_service.dart';
 import '../../service/pesquisa_satisfacao_service.dart';
 
 class AlertaCard extends StatelessWidget {
-  final VoidCallback? onTap;
-
-  const AlertaCard({super.key, this.onTap});
+  const AlertaCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,81 +12,85 @@ class AlertaCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: FutureBuilder(
-            future: service.buscarPesquisas(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: FutureBuilder(
+          future: service.buscarPesquisas(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Erro ao carregar avaliações: ${snapshot.error}'),
-                );
-              }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Erro ao carregar avaliações: ${snapshot.error}'),
+              );
+            }
 
-              final pesquisas = snapshot.data ?? [];
+            final pesquisas = snapshot.data ?? [];
 
-              final problemas = pesquisas.where((p) => p.nota < 3).toList();
+            final problemas = pesquisas
+                .where((pesquisa) => pesquisa.nota < 3)
+                .toList();
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.warning_amber_rounded, size: 20),
-
-                      const SizedBox(width: 10),
-
-                      const Expanded(
-                        child: Text(
-                          'Avaliações que precisam de atenção',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      size: 22,
+                      color: Colors.orange.shade800,
+                    ),
+                    const SizedBox(width: 10),
+                    const Expanded(
+                      child: Text(
+                        'Avaliações que precisam de atenção',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-
-                      const Text('Ver todas →', style: TextStyle(fontSize: 11)),
-                    ],
-                  ),
-
-                  if (problemas.isEmpty) ...[
-                    const SizedBox(height: 16),
-
-                    const Text(
-                      'Nenhuma avaliação abaixo de 3 estrelas.',
-                      style: TextStyle(fontSize: 12),
                     ),
                   ],
+                ),
 
-                  if (problemas.isNotEmpty)
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: problemas.length,
-                        separatorBuilder: (_, _) => const Divider(height: 12),
-                        itemBuilder: (context, index) {
-                          final avaliacao = problemas[index];
+                const SizedBox(height: 12),
 
-                          return _Avaliacao(
-                            nome: 'Nutriz #${avaliacao.nutrizId}',
-                            nota: '${avaliacao.nota} ★',
-                            comentario:
-                                avaliacao.comentario ?? 'Sem comentário.',
-                          );
-                        },
+                if (problemas.isEmpty)
+                  const Expanded(
+                    child: Center(
+                      child: Text(
+                        'Nenhuma avaliação abaixo de 3 estrelas.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
                       ),
                     ),
-                ],
-              );
-            },
-          ),
+                  ),
+
+                if (problemas.isNotEmpty)
+                  Expanded(
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(top: 4),
+                      itemCount: problemas.length,
+                      separatorBuilder: (_, _) {
+                        return const SizedBox(height: 14);
+                      },
+                      itemBuilder: (context, index) {
+                        final avaliacao = problemas[index];
+
+                        return _Avaliacao(
+                          nome: 'Nutriz #${avaliacao.nutrizId}',
+                          nota: '${avaliacao.nota} ★',
+                          comentario: avaliacao.comentario ?? 'Sem comentário.',
+                        );
+                      },
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -108,45 +110,57 @@ class _Avaliacao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Icon(Icons.person_outline, size: 18),
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.person_outline, size: 20),
+          const SizedBox(width: 10),
 
-        const SizedBox(width: 8),
-
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      nome,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        nome,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      nota,
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                  ],
+                ),
 
-                  Text(nota, style: const TextStyle(fontSize: 11)),
-                ],
-              ),
+                const SizedBox(height: 5),
 
-              const SizedBox(height: 2),
-
-              Text(
-                comentario,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 11),
-              ),
-            ],
+                Text(
+                  comentario,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 11),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

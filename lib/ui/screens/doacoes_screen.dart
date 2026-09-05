@@ -128,13 +128,9 @@ class _DoacoesScreenState extends State<DoacoesScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Doações',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              'Acompanhe as doações realizadas.',
+              style: TextStyle(fontSize: 28, color: AppColors.textSecondary),
             ),
-
-            const SizedBox(height: 8),
-
-            const Text('Acompanhe as doações realizadas.'),
 
             const SizedBox(height: 24),
 

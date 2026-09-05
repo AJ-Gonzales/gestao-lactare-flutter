@@ -162,6 +162,7 @@ class _AvaliacoesScreenState extends State<AvaliacoesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Avaliações')),
       backgroundColor: AppColors.background,
       body: Padding(
         padding: const EdgeInsets.all(24),
