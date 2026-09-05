@@ -393,9 +393,9 @@ As alterações respeitam as regras de transição de status definidas no backen
 
 ### Alteração de status
 
->(screenshots/agendamento-alt.PNG)
->(screenshots/agendamento-alt2.PNG)
->(screenshots/agendamento-conf.PNG)
+>!(screenshots/agendamento-alt.PNG)
+>!(screenshots/agendamento-alt2.PNG)
+>!(screenshots/agendamento-conf.PNG)
 
 ---
 
