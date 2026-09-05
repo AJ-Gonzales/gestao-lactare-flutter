@@ -575,15 +575,6 @@ gestao-lactare-flutter/
 ├── pubspec.lock
 └── README.md
 ```
-
----
-
-# Integrantes
-
-* Anna Julia Bobrzyk Gonzales — RM: 557473
-* Carlos Henrique Miranda Villarinho — RM: 558073
-* Juliana Tami Kanashiro — RM: 558421
-
 ---
 
 # Repositórios
