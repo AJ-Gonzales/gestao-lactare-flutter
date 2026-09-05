@@ -221,10 +221,7 @@ Como a aplicação é executada como Flutter Web e a API Spring Boot é executad
 A configuração permite as requisições utilizadas pela aplicação, incluindo:
 
 * GET
-* POST
-* PUT
 * PATCH
-* DELETE
 * OPTIONS
 
 Durante o desenvolvimento local, a aplicação Flutter é executada no navegador e a API utiliza a porta `8080`.
@@ -257,7 +254,7 @@ de erro           ↓
 
 ---
 
-## 💾 Persistência local
+## Persistência local
 
 A aplicação utiliza o pacote `shared_preferences` para armazenar localmente o estado de login.
 
@@ -326,7 +323,7 @@ Possui:
 
 ### Screenshot
 
->![Tela de Login](screenshots/login.png)
+>![Tela de Login](screenshots/login.PNG)
 
 ---
 
@@ -343,7 +340,7 @@ Apresenta informações resumidas por meio de componentes visuais, incluindo:
 
 ### Screenshot
 
->![Dashboard](screenshots/dashboard.png)
+>![Dashboard](screenshots/dashboard.PNG)
 
 
 ---
@@ -356,7 +353,7 @@ Os dados são obtidos através da API REST.
 
 ### Screenshot
 
->![Nutrizes](screenshots/nutrizes.png)
+>![Nutrizes](screenshots/nutrizes.PNG)
 
 ---
 
@@ -368,7 +365,7 @@ Os dados são carregados através do endpoint de doações da API.
 
 ### Screenshot
 
->![Doações](screenshots/doacoes.png)
+>![Doações](screenshots/doacoes.PNG)
 
 ---
 
@@ -388,17 +385,17 @@ As alterações respeitam as regras de transição de status definidas no backen
 
 ### Screenshot
 
->![Agendamentos](screenshots/agendamentos.png)
+>![Agendamentos](screenshots/agendamentos.PNG)
 
 ### Filtros
 
->![Filtros de agendamentos](screenshots/agendamento-NC.png)
+>![Filtros de agendamentos](screenshots/agendamento-NC.PNG)
 
 ### Alteração de status
 
->(screenshots/agendamento-alt.png)
->(screenshots/agendamento-alt2.png)
->(screenshots/agendamento-conf.png)
+>(screenshots/agendamento-alt.PNG)
+>(screenshots/agendamento-alt2.PNG)
+>(screenshots/agendamento-conf.PNG)
 
 ---
 
@@ -410,7 +407,7 @@ As avaliações abaixo de 3 estrelas são consideradas avaliações que precisam
 
 ### Screenshot
 
-> ![Avaliações](screenshots/avaliacoes.png)
+> ![Avaliações](screenshots/avaliacoes.PNG)
 
 ---
 
