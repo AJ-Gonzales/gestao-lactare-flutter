@@ -326,7 +326,7 @@ Possui:
 
 ### Screenshot
 
->
+>![Tela de Login](screenshots/login.png)
 
 ---
 
@@ -343,7 +343,8 @@ Apresenta informações resumidas por meio de componentes visuais, incluindo:
 
 ### Screenshot
 
-> 
+>![Dashboard](screenshots/dashboard.png)
+
 
 ---
 
@@ -355,7 +356,7 @@ Os dados são obtidos através da API REST.
 
 ### Screenshot
 
-> 
+>![Nutrizes](screenshots/nutrizes.png)
 
 ---
 
@@ -367,7 +368,7 @@ Os dados são carregados através do endpoint de doações da API.
 
 ### Screenshot
 
-> 
+>![Doações](screenshots/doacoes.png)
 
 ---
 
@@ -387,7 +388,17 @@ As alterações respeitam as regras de transição de status definidas no backen
 
 ### Screenshot
 
-> 
+>![Agendamentos](screenshots/agendamentos.png)
+
+### Filtros
+
+>![Filtros de agendamentos](screenshots/agendamento-NC.png)
+
+### Alteração de status
+
+>(screenshots/agendamento-alt.png)
+>(screenshots/agendamento-alt2.png)
+>(screenshots/agendamento-conf.png)
 
 ---
 
@@ -399,7 +410,7 @@ As avaliações abaixo de 3 estrelas são consideradas avaliações que precisam
 
 ### Screenshot
 
-> 
+> ![Avaliações](screenshots/avaliacoes.png)
 
 ---
 
