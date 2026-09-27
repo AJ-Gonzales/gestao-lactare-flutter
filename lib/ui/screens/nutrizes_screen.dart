@@ -18,7 +18,7 @@ class _NutrizesScreenState extends State<NutrizesScreen> {
 
   final TextEditingController buscaController = TextEditingController();
 
-  final TextEditingController cepController = TextEditingController();
+  final TextEditingController cpfController = TextEditingController();
 
   List<Nutriz> nutrizes = [];
   List<Nutriz> nutrizesFiltradas = [];
@@ -55,25 +55,24 @@ class _NutrizesScreenState extends State<NutrizesScreen> {
 
   void _pesquisar() {
     final busca = buscaController.text.toLowerCase().trim();
-    final cep = cepController.text.trim();
+    final cpf = cpfController.text.trim();
 
     setState(() {
       nutrizesFiltradas = nutrizes.where((nutriz) {
         final correspondeBusca =
             busca.isEmpty ||
-            nutriz.nome.toLowerCase().contains(busca) ||
-            nutriz.cpf.contains(busca);
+            nutriz.nome.toLowerCase().contains(busca);
 
-        final correspondeCep = cep.isEmpty || nutriz.cep.contains(cep);
+        final correspondeCpf = cpf.isEmpty || nutriz.cpf.contains(cpf);
 
-        return correspondeBusca && correspondeCep;
+        return correspondeBusca && correspondeCpf;
       }).toList();
     });
   }
 
   void _limparFiltros() {
     buscaController.clear();
-    cepController.clear();
+    cpfController.clear();
 
     setState(() {
       nutrizesFiltradas = nutrizes;
@@ -83,7 +82,7 @@ class _NutrizesScreenState extends State<NutrizesScreen> {
   @override
   void dispose() {
     buscaController.dispose();
-    cepController.dispose();
+    cpfController.dispose();
     super.dispose();
   }
 
@@ -116,7 +115,7 @@ class _NutrizesScreenState extends State<NutrizesScreen> {
 
             _FiltrosNutrizes(
               buscaController: buscaController,
-              cepController: cepController,
+              cpfController: cpfController,
               onPesquisar: _pesquisar,
               onLimpar: _limparFiltros,
             ),
@@ -162,13 +161,13 @@ class _NutrizesScreenState extends State<NutrizesScreen> {
 
 class _FiltrosNutrizes extends StatelessWidget {
   final TextEditingController buscaController;
-  final TextEditingController cepController;
+  final TextEditingController cpfController;
   final VoidCallback onPesquisar;
   final VoidCallback onLimpar;
 
   const _FiltrosNutrizes({
     required this.buscaController,
-    required this.cepController,
+    required this.cpfController,
     required this.onPesquisar,
     required this.onLimpar,
   });
@@ -187,7 +186,7 @@ class _FiltrosNutrizes extends StatelessWidget {
                 textInputAction: TextInputAction.search,
                 onSubmitted: (_) => onPesquisar(),
                 decoration: const InputDecoration(
-                  labelText: 'Nome ou CPF',
+                  labelText: 'Nome',
                   hintText: 'Pesquisar nutriz...',
                   prefixIcon: Icon(Icons.search),
                 ),
@@ -197,18 +196,19 @@ class _FiltrosNutrizes extends StatelessWidget {
             const SizedBox(width: 16),
 
             Expanded(
+              flex: 1,
               child: TextField(
-                controller: cepController,
+                controller: cpfController,
                 textInputAction: TextInputAction.search,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(8),
+                  LengthLimitingTextInputFormatter(11),
                 ],
                 onSubmitted: (_) => onPesquisar(),
                 decoration: const InputDecoration(
-                  labelText: 'CEP',
-                  hintText: 'Pesquisar por CEP...',
-                  prefixIcon: Icon(Icons.location_on_outlined),
+                  labelText: 'CPF',
+                  hintText: 'Pesquisar por CPF...',
+                  prefixIcon: Icon(Icons.person_pin),
                 ),
               ),
             ),
@@ -288,8 +288,8 @@ class _NutrizCard extends StatelessWidget {
             const SizedBox(height: 8),
 
             _InfoLinha(
-              icone: Icons.location_on_outlined,
-              texto: 'CEP: ${nutriz.cep}',
+              icone: Icons.person_pin,
+              texto: 'CPF: ${nutriz.cpf}',
             ),
           ],
         ),

@@ -4,6 +4,7 @@ class PesquisaSatisfacao {
   final String? comentario;
   final String dataResposta;
   final int nutrizId;
+  final String nutrizNome;
   final int doacaoId;
 
   PesquisaSatisfacao({
@@ -12,6 +13,7 @@ class PesquisaSatisfacao {
     this.comentario,
     required this.dataResposta,
     required this.nutrizId,
+    required this.nutrizNome,
     required this.doacaoId,
   });
 
@@ -22,6 +24,7 @@ class PesquisaSatisfacao {
       comentario: json['comentario'],
       dataResposta: json['dataResposta'],
       nutrizId: json['nutrizId'],
+      nutrizNome: json['nutrizNome'],
       doacaoId: json['doacaoId'],
     );
   }

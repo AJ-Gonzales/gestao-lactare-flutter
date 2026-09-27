@@ -66,8 +66,16 @@ class AgendamentosChart extends StatelessWidget {
                   final cancelados = agendamentos
                       .where((a) => a.status.toLowerCase() == 'cancelado')
                       .length;
+                  
+                  final concluido = agendamentos
+                      .where((a) => a.status.toLowerCase() == 'concluido')
+                      .length;
+                  
+                  final naoCompareceu = agendamentos
+                      .where((a) => a.status.toLowerCase() == 'nao_compareceu')
+                      .length;
 
-                  final valores = [confirmados, pendentes, cancelados];
+                  final valores = [confirmados, pendentes, cancelados, concluido, naoCompareceu];
 
                   final maiorValor = valores.reduce((a, b) => a > b ? a : b);
 
@@ -106,6 +114,8 @@ class AgendamentosChart extends StatelessWidget {
                                 'Confirmados',
                                 'Pendentes',
                                 'Cancelados',
+                                'Concluídos',
+                                'Não Compareceu',
                               ];
 
                               if (value.toInt() >= 0 &&

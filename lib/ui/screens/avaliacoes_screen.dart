@@ -89,6 +89,18 @@ class _AvaliacoesScreenState extends State<AvaliacoesScreen> {
       }).toList();
     }
 
+    if (periodoSelecionado == 'Últimos 2 meses') {
+      final limite = hoje.subtract(const Duration(days: 60));
+
+      resultado = resultado.where((avaliacao) {
+        final data = DateTime.tryParse(avaliacao.dataResposta);
+
+        if (data == null) return false;
+
+        return !data.isBefore(limite) && !data.isAfter(hoje);
+      }).toList();
+    }
+
     if (dataSelecionada != null) {
       resultado = resultado.where((avaliacao) {
         final data = DateTime.tryParse(avaliacao.dataResposta);
@@ -243,6 +255,7 @@ class _AvaliacoesScreenState extends State<AvaliacoesScreen> {
         return _AvaliacaoCard(avaliacao: avaliacao);
       },
     );
+  
   }
 }
 
@@ -309,7 +322,7 @@ class _FiltrosAvaliacoes extends StatelessWidget {
             ),
 
             SizedBox(
-              width: 200,
+              width: 220,
               child: DropdownButtonFormField<String>(
                 value: periodoSelecionado,
                 decoration: const InputDecoration(
@@ -325,6 +338,10 @@ class _FiltrosAvaliacoes extends StatelessWidget {
                   DropdownMenuItem(
                     value: 'Últimos 30 dias',
                     child: Text('Últimos 30 dias'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Últimos 2 meses',
+                    child: Text('Últimos 2 meses'),
                   ),
                 ],
                 onChanged: (valor) {
@@ -420,23 +437,27 @@ class _AvaliacaoCard extends StatelessWidget {
               children: [
                 const Icon(Icons.person_outline, color: AppColors.primary),
                 const SizedBox(width: 8),
-                Text(
-                  'Nutriz #${avaliacao.nutrizId}',
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  dataFormatada,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
+                Expanded(
+                  child: Text(
+                    '${avaliacao.nutrizNome} (ID: ${avaliacao.nutrizId})',
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ],
+            ),
+
+            const SizedBox(height: 6),
+
+            Text(
+              dataFormatada,
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.textSecondary,
+              ),
             ),
 
             const SizedBox(height: 16),

@@ -463,7 +463,7 @@ class _AgendamentoCardState extends State<_AgendamentoCard> {
               children: [
                 Expanded(
                   child: Text(
-                    'Agendamento #${widget.agendamento.id}',
+                    'Agendamento: ${widget.agendamento.id}',
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -493,14 +493,14 @@ class _AgendamentoCardState extends State<_AgendamentoCard> {
 
             _InfoLinha(
               icone: Icons.person_outline,
-              texto: 'Nutriz #${widget.agendamento.nutrizId}',
+              texto: '${widget.agendamento.nutrizNome} (ID: ${widget.agendamento.nutrizId})',
             ),
 
             const SizedBox(height: 8),
 
             _InfoLinha(
               icone: Icons.local_hospital_outlined,
-              texto: 'Banco de leite #${widget.agendamento.bancoLeiteId}',
+              texto: '${_nomeBancoResumido(widget.agendamento.bancoLeiteNome)} (ID: ${widget.agendamento.bancoLeiteId})',
             ),
 
             const Spacer(),
@@ -526,6 +526,17 @@ class _AgendamentoCardState extends State<_AgendamentoCard> {
       ),
     );
   }
+
+}
+
+String _nomeBancoResumido (String nome) {
+const prefixo = 'Banco de Leite Humano do ';
+
+    if (nome.startsWith(prefixo)) {
+      return nome.substring(prefixo.length);
+    }
+
+    return nome;
 }
 
 class _StatusBadge extends StatelessWidget {

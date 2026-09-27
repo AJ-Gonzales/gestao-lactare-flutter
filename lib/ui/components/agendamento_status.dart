@@ -4,12 +4,16 @@ class AgendamentoStatus extends StatelessWidget {
   final int confirmados;
   final int pendentes;
   final int cancelados;
+  final int concluido;
+  final int naoCompareceu;
 
   const AgendamentoStatus({
     super.key,
     required this.confirmados,
     required this.pendentes,
     required this.cancelados,
+    required this.concluido,
+    required this.naoCompareceu,
   });
 
   @override
@@ -47,6 +51,22 @@ class AgendamentoStatus extends StatelessWidget {
               icone: Icons.cancel_outlined,
               texto: 'Cancelados',
               quantidade: cancelados,
+            ),
+
+            const SizedBox(height: 14),
+
+            _StatusItem(
+              icone: Icons.done_all_outlined,
+              texto: 'Concluídos',
+              quantidade: concluido,
+            ),
+
+            const SizedBox(height: 14),
+
+            _StatusItem(
+              icone: Icons.not_interested_outlined,
+              texto: 'Não Compareceu',
+              quantidade: naoCompareceu,
             ),
           ],
         ),

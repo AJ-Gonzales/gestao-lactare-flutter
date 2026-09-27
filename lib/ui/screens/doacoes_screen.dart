@@ -173,7 +173,7 @@ class _DoacoesScreenState extends State<DoacoesScreen> {
         maxCrossAxisExtent: 380,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        childAspectRatio: 1.7,
+        childAspectRatio: 1.35,
       ),
       itemCount: doacoesFiltradas.length,
       itemBuilder: (context, index) {
@@ -279,6 +279,15 @@ class _DoacaoCard extends StatelessWidget {
 
   const _DoacaoCard({required this.doacao});
 
+  String _nomeBancoResumido(String nome) {
+    const prefixo = 'Banco de Leite Humano do ';
+
+    if (nome.startsWith(prefixo)) {
+      return nome.substring(prefixo.length);
+    }
+
+    return nome;
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -310,21 +319,21 @@ class _DoacaoCard extends StatelessWidget {
 
             _InfoLinha(
               icone: Icons.person_outline,
-              texto: 'Nutriz #${doacao.nutrizId}',
+              texto: '${doacao.nutrizNome} (ID: ${doacao.nutrizId})',
             ),
 
             const SizedBox(height: 8),
 
             _InfoLinha(
               icone: Icons.local_hospital_outlined,
-              texto: 'Banco de leite #${doacao.bancoLeiteId}',
+              texto: '${_nomeBancoResumido(doacao.bancoLeiteNome)} (ID: ${doacao.bancoLeiteId})',
             ),
 
             const SizedBox(height: 8),
 
             _InfoLinha(
               icone: Icons.event_outlined,
-              texto: 'Agendamento #${doacao.agendamentoId}',
+              texto: 'Agendamento: ${doacao.agendamentoId}',
             ),
           ],
         ),
@@ -337,15 +346,21 @@ class _InfoLinha extends StatelessWidget {
   final IconData icone;
   final String texto;
 
-  const _InfoLinha({required this.icone, required this.texto});
+  const _InfoLinha({
+    required this.icone,
+    required this.texto,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icone, size: 18, color: AppColors.primary),
+        Icon(icone),
         const SizedBox(width: 8),
-        Expanded(child: Text(texto)),
+        Expanded(
+          child: Text(texto),
+        ),
       ],
     );
   }

@@ -150,7 +150,9 @@ class BancosChart extends StatelessWidget {
                                         child: SizedBox(
                                           width: 75,
                                           child: Text(
-                                            bancos[index].nome,
+                                            _nomeBancoResumido(
+                                              bancos[index].nome,
+                                            ),
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
@@ -190,5 +192,15 @@ class BancosChart extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _nomeBancoResumido(String nome) {
+    const prefixo = 'Banco de Leite Humano do ';
+
+    if (nome.startsWith(prefixo)) {
+      return nome.substring(prefixo.length);
+    }
+
+    return nome;
   }
 }

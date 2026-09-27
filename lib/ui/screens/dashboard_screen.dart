@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_lactare/theme/app_colors.dart';
 
-import '../../navigation/app_routes.dart';
-
 import '../components/dashboard_menu.dart';
 import '../components/doacoes_chart.dart';
 import '../components/agendamentos_chart.dart';

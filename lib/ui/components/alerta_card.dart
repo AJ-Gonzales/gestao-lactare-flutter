@@ -81,7 +81,7 @@ class AlertaCard extends StatelessWidget {
                         final avaliacao = problemas[index];
 
                         return _Avaliacao(
-                          nome: 'Nutriz #${avaliacao.nutrizId}',
+                          nome: '${avaliacao.nutrizNome} (ID: ${avaliacao.nutrizId})',
                           nota: '${avaliacao.nota} ★',
                           comentario: avaliacao.comentario ?? 'Sem comentário.',
                         );

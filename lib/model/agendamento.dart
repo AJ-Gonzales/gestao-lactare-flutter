@@ -4,7 +4,9 @@ class Agendamento {
   final String horario;
   final String status;
   final int nutrizId;
+  final String nutrizNome;
   final int bancoLeiteId;
+  final String bancoLeiteNome;
 
   Agendamento({
     required this.id,
@@ -12,7 +14,9 @@ class Agendamento {
     required this.horario,
     required this.status,
     required this.nutrizId,
+    required this.nutrizNome,
     required this.bancoLeiteId,
+    required this.bancoLeiteNome,
   });
 
   factory Agendamento.fromJson(Map<String, dynamic> json) {
@@ -22,7 +26,9 @@ class Agendamento {
       horario: json['horario'],
       status: json['status'],
       nutrizId: json['nutrizId'],
+      nutrizNome: json['nutrizNome'],
       bancoLeiteId: json['bancoLeiteId'],
+      bancoLeiteNome: json['bancoLeiteNome'],
     );
   }
 }

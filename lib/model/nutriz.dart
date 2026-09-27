@@ -4,9 +4,6 @@ class Nutriz {
   final String cpf;
   final String telefone;
   final String? email;
-  final String dataNascimento;
-  final String endereco;
-  final String cep;
 
   Nutriz({
     required this.id,
@@ -14,9 +11,6 @@ class Nutriz {
     required this.cpf,
     required this.telefone,
     this.email,
-    required this.dataNascimento,
-    required this.endereco,
-    required this.cep,
   });
 
   factory Nutriz.fromJson(Map<String, dynamic> json) {
@@ -26,9 +20,6 @@ class Nutriz {
       cpf: json['cpf'],
       telefone: json['telefone'],
       email: json['email'],
-      dataNascimento: json['dataNascimento'],
-      endereco: json['endereco'],
-      cep: json['cep'],
     );
   }
 }
