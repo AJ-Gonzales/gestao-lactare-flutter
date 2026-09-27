@@ -393,9 +393,9 @@ As alterações respeitam as regras de transição de status definidas no backen
 
 ### Alteração de status
 
->(screenshots/agendamento-alt.PNG)
->(screenshots/agendamento-alt2.PNG)
->(screenshots/agendamento-conf.PNG)
+>![Alterações](screenshots/agendamento-alt.PNG)
+>![Alterações](screenshots/agendamento-alt2.PNG)
+>![Alterações](screenshots/agendamento-conf.PNG)
 
 ---
 
@@ -575,15 +575,6 @@ gestao-lactare-flutter/
 ├── pubspec.lock
 └── README.md
 ```
-
----
-
-# Integrantes
-
-* Anna Julia Bobrzyk Gonzales — RM: 557473
-* Carlos Henrique Miranda Villarinho — RM: 558073
-* Juliana Tami Kanashiro — RM: 558421
-
 ---
 
 # Repositórios
